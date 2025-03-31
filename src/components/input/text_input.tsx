@@ -11,7 +11,7 @@ export default function TextInput({ heading, placeHolder, className }: TextInput
 	return (
 		<div className={className} >
 			<p className="" >{heading}</p>
-			<textarea className="w-full border mt-2" type="text" placeholder={placeHolder}></input>
+			<textarea className="w-full border mt-2" placeholder={placeHolder}></textarea>
 		</div>
 	);
 }

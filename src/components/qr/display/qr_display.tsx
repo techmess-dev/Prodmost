@@ -32,28 +32,56 @@ export default function QrDisplay({ qrData, backgroundOptions, dotOptions, image
 
 	const qrRef = useRef<HTMLDivElement | null>(null);
 
-	const [qrSize, setQrSize] = useState(300);
+	const [qrSize] = useState(300);
 
-	const qrCode = useRef(
-		new QRCodeStyling({
+	const qrCode = useRef<QRCodeStyling | null>(null);
+
+	useEffect(() => {
+		qrCode.current = new QRCodeStyling({
 			width: qrSize,
 			height: qrSize,
 			data: qrData,
-			backgroundOptions: { color: backgroundOptions.color, gradient: backgroundOptions.gradient || undefined },
+			backgroundOptions: {
+				color: backgroundOptions.color,
+				gradient: backgroundOptions.gradient || undefined
+			},
 			dotsOptions: dotOptions,
 			image: imageOptions?.image || undefined,
-			imageOptions: { crossOrigin: "anonymous", margin: imageOptions?.margin || 2, hideBackgroundDots: imageOptions?.hideDots || false, imageSize: imageOptions?.size || 0.5 },
+			imageOptions: {
+				crossOrigin: "anonymous",
+				margin: imageOptions?.margin || 2,
+				hideBackgroundDots: imageOptions?.hideDots || false,
+				imageSize: imageOptions?.size || 0.5
+			},
 			cornersSquareOptions: { type: dotOptions.type },
 			cornersDotOptions: { type: dotOptions.type },
 			qrOptions: {
 				errorCorrectionLevel: "H"
 			}
-		})
-	);
+		});
+	}, [qrSize, qrData, backgroundOptions, dotOptions, imageOptions]);
+
+
+	// const qrCode = useRef(
+	// 	new QRCodeStyling({
+	// 		width: qrSize,
+	// 		height: qrSize,
+	// 		data: qrData,
+	// 		backgroundOptions: { color: backgroundOptions.color, gradient: backgroundOptions.gradient || undefined },
+	// 		dotsOptions: dotOptions,
+	// 		image: imageOptions?.image || undefined,
+	// 		imageOptions: { crossOrigin: "anonymous", margin: imageOptions?.margin || 2, hideBackgroundDots: imageOptions?.hideDots || false, imageSize: imageOptions?.size || 0.5 },
+	// 		cornersSquareOptions: { type: dotOptions.type },
+	// 		cornersDotOptions: { type: dotOptions.type },
+	// 		qrOptions: {
+	// 			errorCorrectionLevel: "H"
+	// 		}
+	// 	})
+	// );
 
 	useEffect(() => {
 
-		qrCode.current.update({
+		qrCode.current?.update({
 			width: qrSize,
 			height: qrSize,
 			data: qrData,
@@ -67,12 +95,15 @@ export default function QrDisplay({ qrData, backgroundOptions, dotOptions, image
 
 		if (qrRef.current) {
 			qrRef.current.innerHTML = "";
-			qrCode.current.append(qrRef.current as unknown as HTMLElement);
+			qrCode.current?.append(qrRef.current as unknown as HTMLElement);
 		}
 
 
 
 	}, [qrSize, qrData, backgroundOptions, dotOptions, imageOptions])
+
+
+
 
 
 	return (
@@ -111,12 +142,13 @@ export default function QrDisplay({ qrData, backgroundOptions, dotOptions, image
 				</div>
 
 
+
 				<div className="grid max-h-12 items-center mt-2 sm:mt-6">
 					<button
 						onClick={async () => {
 							console.log("my qr raw");
-							console.log(qrCode.current.getRawData());
-							await qrCode.current.download({ extension: extension, name: fileName });
+							console.log(qrCode?.current?.getRawData());
+							await qrCode.current?.download({ extension: extension, name: fileName });
 							// qrCode.current.download({ extension: extension });
 						}}
 						className="grid bg-orange-600 border text-xs font-mono text-white px-4 py-2 border-black cursor-pointer"
