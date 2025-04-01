@@ -13,7 +13,7 @@
     "lucide-react": "^0.485.0",
     "motion": "^12.6.2",
     "next": "15.2.3",
-    "qr-code-styling": "file:../../qr_gen/qr-code-styling/qr-code-styling-1.9.1.tgz",
+    "qr-code-styling": "file:libs/qr-code-styling/qr-code-styling-1.9.1.tgz",
     "react": "^19.0.0",
     "react-color": "^2.19.3",
     "react-dom": "^19.0.0",
