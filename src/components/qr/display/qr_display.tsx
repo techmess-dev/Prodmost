@@ -1,6 +1,8 @@
 "use client"
 
+import DownloadDialog from "@/components/download_dialog/DownloadDialog";
 import ParentBox from "@/components/parent_box/ParentBox";
+import { IsOnMobile } from "@/utils/isOnMobile";
 import QRCodeStyling, { DotType, FileExtension, Gradient } from "qr-code-styling";
 import { useEffect, useRef, useState } from "react";
 
@@ -32,9 +34,23 @@ export default function QrDisplay({ qrData, backgroundOptions, dotOptions, image
 
 	const qrRef = useRef<HTMLDivElement | null>(null);
 
-	const [qrSize] = useState(300);
+	const [qrSize] = useState(500);
 
 	const qrCode = useRef<QRCodeStyling | null>(null);
+
+	const [showDownloadDialog, setShowDownloadDialog] = useState(false);
+	const isOnMobile = IsOnMobile();
+
+
+	const updateDownloadOptions = (
+		key: string,
+		value: string | FileExtension) => {
+		if (key === "fileName") {
+			setFileName(value as string);
+		} else if (key === "extension") {
+			setExtension(value as FileExtension);
+		}
+	};
 
 	useEffect(() => {
 		qrCode.current = new QRCodeStyling({
@@ -158,6 +174,26 @@ export default function QrDisplay({ qrData, backgroundOptions, dotOptions, image
 				</div>
 
 			</div>
+
+			<div className="grid max-h-12 w-[calc(100%-32px)] items-center sm:hidden fixed bottom-0 m-4">
+				<button
+					onClick={() => {
+						setShowDownloadDialog(!showDownloadDialog);
+					}}
+					className="grid bg-orange-600 border text-xs font-mono text-white px-4 py-2 border-black cursor-pointer"
+				>
+					Download
+				</button>
+			</div>
+
+			{showDownloadDialog && isOnMobile ? <DownloadDialog onDownload={async () => {
+				await qrCode.current?.download({ extension: extension, name: fileName });
+			}}
+				fileName={fileName} extension={extension}
+				onUpdateOption={updateDownloadOptions}
+				onClose={() => setShowDownloadDialog(!showDownloadDialog)}
+			/> : ""}
+
 		</div>
 	);
 }
