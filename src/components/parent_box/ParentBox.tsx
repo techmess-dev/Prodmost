@@ -1,4 +1,4 @@
-import { InfoIcon } from "@phosphor-icons/react";
+
 import React from "react";
 
 interface ParentBoxProps {
