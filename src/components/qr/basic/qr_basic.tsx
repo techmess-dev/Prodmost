@@ -6,6 +6,7 @@ import QrDataInput from "@/components/input/qr_data_input";
 import SizeSelector from "@/components/size/SizeSelector";
 import { isStringEmpty } from "@/utils/utils";
 import { DotType } from "qr-code-styling";
+import EclSelector from "../ecl_selector/EclSelector";
 
 
 export interface QrBasicProps {
@@ -18,6 +19,7 @@ export interface QrBasicProps {
 	imageMargin: number;
 	dotsBehind: boolean;
 	qrStyle: DotType;
+	eclLevel: string;
 }
 
 
@@ -115,9 +117,23 @@ export default function QrBasic({ qrBasicDetails, updateQrBasicDetails }: QrBasi
 							["Feather", "rounded-feather"],
 						])} />
 				</div>
-
 			</div>
 
-		</div>
+			{/* <div className="grid grid-cols-2 mt-4 gap-2"> */}
+			<div className="grid grid-cols-1 mt-8 gap-2">
+				<div className="grid col-span-1">
+					<EclSelector heading="Error Correction Level" defaultEcl={qrBasicDetails.eclLevel} name='eclLevel' updateBasicProps={updateQrBasicProps}
+						optionsTextSize="xs"
+						levels={new Map<string, string>([
+							["Low", "L"],
+							["Medium", "M"],
+							["Quartile", "Q"],
+							["High", "H"]
+						])} />
+				</div>
+			</div>
+			{/* </div> */}
+
+		</div >
 	);
 }

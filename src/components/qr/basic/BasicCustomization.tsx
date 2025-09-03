@@ -4,6 +4,7 @@ import Header from "@/components/header/header";
 import QrBasic, { QrBasicProps } from "./qr_basic";
 import QrDisplay from "../display/qr_display";
 import { useState } from "react";
+import { ErrorCorrectionLevel } from "qr-code-styling";
 
 export default function BasicCustomization() {
 
@@ -15,7 +16,8 @@ export default function BasicCustomization() {
 		imageSize: 0.5,
 		imageMargin: 2,
 		dotsBehind: false,
-		qrStyle: "square"
+		qrStyle: "square",
+		eclLevel: "M",
 	});
 
 	const updateQrBasicDetails = <K extends keyof QrBasicProps>(
@@ -55,8 +57,10 @@ export default function BasicCustomization() {
 							hideDots: qrDetails.dotsBehind,
 							size: qrDetails.imageSize,
 							margin: qrDetails.imageMargin,
-						}
-						} />
+						}}
+						qrOptions={{
+							errorCorrectionLevel: qrDetails.eclLevel as ErrorCorrectionLevel
+						}} />
 				</div>
 
 			</div>

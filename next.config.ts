@@ -11,9 +11,14 @@ const nextConfig: NextConfig = {
       {
         protocol: "https",
         hostname: "www.digitalocean.com"
+      },
+      {
+        protocol: "http",
+        hostname: "127.0.0.1:8000"
       }
     ],
   },
+  devIndicators: false,
 };
 
 export default nextConfig;

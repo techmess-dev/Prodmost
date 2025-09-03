@@ -3,7 +3,7 @@
 import DownloadDialog from "@/components/download_dialog/DownloadDialog";
 import ParentBox from "@/components/parent_box/ParentBox";
 import { IsOnMobile } from "@/utils/isOnMobile";
-import QRCodeStyling, { DotType, FileExtension, Gradient } from "qr-code-styling";
+import QRCodeStyling, { DotType, ErrorCorrectionLevel, FileExtension, Gradient } from "qr-code-styling";
 import { useEffect, useRef, useState } from "react";
 
 interface QrDisplayProps {
@@ -24,9 +24,14 @@ interface QrDisplayProps {
 		size?: number;
 		hideDots?: boolean | true;
 	} | undefined;
+	qrOptions: {
+		// typeNumber?: TypeNumber;
+		// mode?: Mode;
+		errorCorrectionLevel?: ErrorCorrectionLevel;
+	}
 }
 
-export default function QrDisplay({ qrData, backgroundOptions, dotOptions, imageOptions }: QrDisplayProps) {
+export default function QrDisplay({ qrData, backgroundOptions, dotOptions, imageOptions, qrOptions, }: QrDisplayProps) {
 
 	const [extension, setExtension] = useState<FileExtension>("png");
 
@@ -71,11 +76,9 @@ export default function QrDisplay({ qrData, backgroundOptions, dotOptions, image
 			},
 			cornersSquareOptions: { type: dotOptions.type },
 			cornersDotOptions: { type: dotOptions.type },
-			qrOptions: {
-				errorCorrectionLevel: "H"
-			}
+			qrOptions: qrOptions,
 		});
-	}, [qrSize, qrData, backgroundOptions, dotOptions, imageOptions]);
+	}, [qrSize, qrData, backgroundOptions, dotOptions, imageOptions, qrOptions]);
 
 
 	// const qrCode = useRef(
@@ -106,7 +109,8 @@ export default function QrDisplay({ qrData, backgroundOptions, dotOptions, image
 			image: imageOptions?.image || undefined,
 			imageOptions: { crossOrigin: "anonymous", margin: imageOptions?.margin || 2, hideBackgroundDots: imageOptions?.hideDots || false, imageSize: imageOptions?.size || 0.5 },
 			cornersSquareOptions: { type: dotOptions.type },
-			cornersDotOptions: { type: dotOptions.type }
+			cornersDotOptions: { type: dotOptions.type },
+			qrOptions: qrOptions
 		});
 
 		if (qrRef.current) {
@@ -116,7 +120,7 @@ export default function QrDisplay({ qrData, backgroundOptions, dotOptions, image
 
 
 
-	}, [qrSize, qrData, backgroundOptions, dotOptions, imageOptions])
+	}, [qrSize, qrData, backgroundOptions, dotOptions, imageOptions, qrOptions])
 
 
 

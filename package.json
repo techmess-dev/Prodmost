@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@phosphor-icons/react": "^2.1.10",
     "framer-motion": "^12.6.2",
     "lucide-react": "^0.485.0",
     "motion": "^12.6.2",
